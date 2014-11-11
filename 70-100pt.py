@@ -53,18 +53,27 @@ class myApp(object):
 
     def key(self,event):
         global player
+        x1,y1,x2,y2 = drawpad.coords(player)
+        
         if event.char == "w":
-            drawpad.move(player,0,-10)
+            if y1 > 0:
+                drawpad.move(player,0,-10)
+            
         if event.char == "s":
-            drawpad.move(player,0,10)
+            if y2 < 600:
+                drawpad.move(player,0,10)
+            
         if event.char == "a":
-            drawpad.move(player,-10,0)
+            if x1 > 0:
+                drawpad.move(player,-10,0)
+            
         if event.char == "d":
-            drawpad.move(player,10,0)
+            if x2 < 800:
+                drawpad.move(player,10,0)
                 
     def collisionDetect(self,rocket):
         rx1,ry1,rx2,ry2 = drawpad.coords(rocket)
-        
+        x1, x2, y1, y2 = drawpad.coords(player)
 
 app = myApp(root)
 root.mainloop()
