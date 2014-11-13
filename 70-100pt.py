@@ -60,7 +60,9 @@ class myApp(object):
         global r1fired
         global rocket
         x1,y1,x2,y2 = drawpad.coords(player)
-        
+        rx1,ry1,rx2,ry1 =drawpad.coords(rocket)
+        if ry1 > 600:
+            drawpad.move(
         if event.char == "w":
             if y1 > 0:
                 drawpad.move(player,0,-10)
@@ -88,6 +90,7 @@ class myApp(object):
     def collisionDetect(self,rocket):
         rx1,ry1,rx2,ry2 = drawpad.coords(rocket)
         x1, x2, y1, y2 = drawpad.coords(player)
-        if rx1 
+        if (rx1 < x1 and rx2 > x2) and (ry1 < y1 and ry2 > y2):
+            drawpad.destroy(enemy)
 app = myApp(root)
 root.mainloop()
