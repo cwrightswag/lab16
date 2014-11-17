@@ -32,7 +32,7 @@ class myApp(object):
         
         self.rocketsTxt = Label(root, text=str(self.rockets), width=len(str(self.rockets)), bg='green')
         self.rocketsTxt.pack()
-        
+        #yolo swaggins and the quest for dank weed
         
         # Adding the drawpad, adding the key listener, starting animation
         drawpad.pack()
@@ -45,15 +45,23 @@ class myApp(object):
         global direction
         global r1fired
         global rocket
-        x1,y1,x2,y2 = drawpad.coords(enemy)
-        if x2 > 800:
+        px1,py1,px2,py2 = drawpad.coords(player)
+        ex1,ey1,ex2,ey2 = drawpad.coords(enemy)
+        rx1, ry1, rx2, ry2 = drawpad.coords(rocket)
+        x = px1 - rx1
+        y = py1 - ry1
+        if ex2 > 800:
             direction = - 5
-        elif x1 < 0:
+        elif ex1 < 0:
             direction = 5
         drawpad.move(enemy, direction, 0)
         if r1fired == True:
-            drawpad.move(rocket,0,-10)
-        drawpad.after(5,self.animate)
+            drawpad.move(rocket,0,-1)
+            self.collisionDetect()
+        if ry1 < 0:
+            drawpad.move(rocket,x,y)
+            r1fired = False
+        drawpad.after(1,self.animate)
 
     def key(self,event):
         global player
@@ -61,8 +69,7 @@ class myApp(object):
         global rocket
         x1,y1,x2,y2 = drawpad.coords(player)
         rx1,ry1,rx2,ry1 =drawpad.coords(rocket)
-        if ry1 > 600:
-            drawpad.move(
+        
         if event.char == "w":
             if y1 > 0:
                 drawpad.move(player,0,-10)
@@ -87,10 +94,15 @@ class myApp(object):
             
                 
                     
-    def collisionDetect(self,rocket):
+    def collisionDetect(self):
+        global player
+        global enemy
+        global rocket
         rx1,ry1,rx2,ry2 = drawpad.coords(rocket)
-        x1, x2, y1, y2 = drawpad.coords(player)
-        if (rx1 < x1 and rx2 > x2) and (ry1 < y1 and ry2 > y2):
-            drawpad.destroy(enemy)
+        ex1, ey1, ex2, ey2 = drawpad.coords(enemy)
+        print "debug"
+        if (rx1 > ex1 and rx2 < ex2) and (ry1 > ey1 and ry2 < ey2):
+            print "true"
+            drawpad.delete(enemy)
 app = myApp(root)
 root.mainloop()
